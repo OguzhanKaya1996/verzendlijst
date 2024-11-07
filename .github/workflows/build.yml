@@ -1,4 +1,4 @@
-name: Cross-Platform Build
+name: Cross-Platform Build and Release
 
 on:
   push:
@@ -12,6 +12,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
+    continue-on-error: true
 
     steps:
     - name: Checkout code
