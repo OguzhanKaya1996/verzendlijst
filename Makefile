@@ -1,11 +1,10 @@
-# Makefile for compiling Python script into a standalone macOS application
+# Makefile for compiling Python script into standalone applications for macOS, Windows, and Linux
 
 # Variables
 SCRIPT_NAME := app.py
 APP_NAME := TensorNetworkBolSplines
 VENV_DIR := venv
 REQUIREMENTS := requirements.txt
-# Makefile for compiling Python script into standalone applications for macOS, Windows, and Linux
 
 # Detect operating system
 OS := $(shell uname -s)
@@ -15,10 +14,12 @@ ifeq ($(OS), Windows_NT)
     PYTHON := python
     PIP := $(VENV_DIR)\Scripts\pip.exe
     PYINSTALLER := $(VENV_DIR)\Scripts\pyinstaller.exe
+    CLEAN := del /S /Q
 else
     PYTHON := python3
     PIP := $(VENV_DIR)/bin/pip
     PYINSTALLER := $(VENV_DIR)/bin/pyinstaller
+    CLEAN := rm -rf
 endif
 
 # Default target
@@ -56,5 +57,5 @@ endif
 # Clean target - Removes virtual environment and build artifacts
 clean:
 	@echo "Cleaning up virtual environment and build artifacts..."
-	rm -rf $(VENV_DIR) build dist __pycache__ $(APP_NAME).spec
+	$(CLEAN) $(VENV_DIR) build dist __pycache__ $(APP_NAME).spec
 	@echo "Cleanup completed."
