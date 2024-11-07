@@ -2,7 +2,7 @@
 
 # Variables
 SCRIPT_NAME := app.py
-APP_NAME := BolSplines
+APP_NAME := TensorNetworkBolSplines
 ICON_FILE := path/to/your/icon.icns  # Optional: specify path to .icns icon file
 VENV_DIR := venv
 REQUIREMENTS := requirements.txt
