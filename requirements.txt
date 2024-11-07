@@ -1,0 +1,15 @@
+# requirements.txt
+
+# GUI framework
+tk
+
+# PDF manipulation and creation
+PyMuPDF   # For the `fitz` library; PyMuPDF is the actual package name
+PyPDF2
+
+# Data handling
+pandas
+
+# PDF generation
+reportlab
+
