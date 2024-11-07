@@ -15,10 +15,10 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout
 
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python
       with:
         python-version: '3.x'
 
@@ -28,7 +28,7 @@ jobs:
         make
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact
       with:
         name: ${{ matrix.os }}-build
         path: dist/
