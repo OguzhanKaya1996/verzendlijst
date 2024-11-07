@@ -1,9 +1,8 @@
-# Makefile for compiling Python script into standalone applications for macOS, Windows, and Linux
+# Makefile for compiling Python script into a standalone macOS application
 
 # Variables
-SCRIPT_NAME := your_script.py
-APP_NAME := YourAppName
-ICON_FILE := path/to/your/icon.icns  # Optional: specify path to .icns icon file
+SCRIPT_NAME := app.py
+APP_NAME := TensorNetworkBolSplines
 VENV_DIR := venv
 REQUIREMENTS := requirements.txt
 
@@ -43,7 +42,7 @@ setup: check
 build: setup
 ifeq ($(OS), Darwin)
 	@echo "Building macOS application..."
-	$(PYINSTALLER) --onefile --windowed --name $(APP_NAME) $(SCRIPT_NAME) $(ICON_OPTION)
+	$(PYINSTALLER) --onefile --windowed --name $(APP_NAME) $(SCRIPT_NAME) 
 else ifeq ($(OS), Linux)
 	@echo "Building Linux application..."
 	$(PYINSTALLER) --onefile --name $(APP_NAME) $(SCRIPT_NAME)
@@ -59,9 +58,3 @@ clean:
 	rm -rf $(VENV_DIR) build dist __pycache__ $(APP_NAME).spec
 	@echo "Cleanup completed."
 
-# Icon option
-ifeq ($(OS), Darwin)
-ICON_OPTION := --icon=$(ICON_FILE)
-else
-ICON_OPTION :=
-endif
