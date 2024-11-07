@@ -1,14 +1,25 @@
-# Makefile for compiling Python script into a standalone macOS application
+# Makefile for compiling Python script into standalone applications for macOS, Windows, and Linux
 
 # Variables
-SCRIPT_NAME := app.py
-APP_NAME := TensorNetworkBolSplines
+SCRIPT_NAME := your_script.py
+APP_NAME := YourAppName
 ICON_FILE := path/to/your/icon.icns  # Optional: specify path to .icns icon file
 VENV_DIR := venv
 REQUIREMENTS := requirements.txt
 
 # Detect operating system
-OS := $(shell uname)
+OS := $(shell uname -s)
+
+# Define paths for pip and pyinstaller based on OS
+ifeq ($(OS), Windows_NT)
+    PYTHON := python
+    PIP := $(VENV_DIR)/Scripts/pip
+    PYINSTALLER := $(VENV_DIR)/Scripts/pyinstaller
+else
+    PYTHON := python3
+    PIP := $(VENV_DIR)/bin/pip
+    PYINSTALLER := $(VENV_DIR)/bin/pyinstaller
+endif
 
 # Default target
 all: check setup build
@@ -16,29 +27,29 @@ all: check setup build
 # Check target - Verifies Python is installed
 check:
 	@echo "Checking for Python installation..."
-	@python3 --version || (echo "Python 3 is not installed. Please install Python 3." && exit 1)
+	@$(PYTHON) --version || (echo "Python 3 is not installed. Please install Python 3." && exit 1)
 
 # Setup target - Creates a virtual environment and installs dependencies
 setup: check
 	@echo "Creating virtual environment in $(VENV_DIR)..."
-	python3 -m venv $(VENV_DIR)
+	$(PYTHON) -m venv $(VENV_DIR)
 	@echo "Virtual environment created. Installing dependencies..."
-	$(VENV_DIR)/bin/pip install --upgrade pip
-	$(VENV_DIR)/bin/pip install pyinstaller
-	$(VENV_DIR)/bin/pip install -r $(REQUIREMENTS)
+	$(PIP) install --upgrade pip
+	$(PIP) install -r $(REQUIREMENTS)
+	$(PIP) install pyinstaller
 	@echo "Dependencies and PyInstaller installed."
 
 # Build target - Compiles the script into a standalone application based on OS
 build: setup
 ifeq ($(OS), Darwin)
 	@echo "Building macOS application..."
-	$(VENV_DIR)/bin/pyinstaller --onefile --windowed --name $(APP_NAME) $(SCRIPT_NAME) $(ICON_OPTION)
+	$(PYINSTALLER) --onefile --windowed --name $(APP_NAME) $(SCRIPT_NAME) $(ICON_OPTION)
 else ifeq ($(OS), Linux)
 	@echo "Building Linux application..."
-	$(VENV_DIR)/bin/pyinstaller --onefile --name $(APP_NAME) $(SCRIPT_NAME)
+	$(PYINSTALLER) --onefile --name $(APP_NAME) $(SCRIPT_NAME)
 else
 	@echo "Building Windows application..."
-	$(VENV_DIR)/Scripts/pyinstaller --onefile --name $(APP_NAME).exe $(SCRIPT_NAME)
+	$(PYINSTALLER) --onefile --name $(APP_NAME).exe $(SCRIPT_NAME)
 endif
 	@echo "Build completed. The application is located in the 'dist' directory."
 
