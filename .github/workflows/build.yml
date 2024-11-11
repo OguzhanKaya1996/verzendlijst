@@ -16,7 +16,7 @@ jobs:
     - name: Set up Qt
       run: |
         brew install qt
-        echo "::add-path::$(brew --prefix qt)/bin"
+        echo "$(brew --prefix qt)/bin" >> $GITHUB_PATH
 
     - name: Configure with CMake
       run: |
