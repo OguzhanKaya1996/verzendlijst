@@ -10,15 +10,15 @@ find_package(Python3 COMPONENTS Interpreter REQUIRED)
 # Add custom command to set up a virtual environment and install requirements
 add_custom_target(venv
     COMMAND ${Python3_EXECUTABLE} -m venv venv
-    COMMAND venv/bin/${Python3_EXECUTABLE} -m pip install --upgrade pip
-    COMMAND venv/bin/${Python3_EXECUTABLE} -m pip install -r requirements.txt
+    COMMAND venv/bin/python3 -m pip install --upgrade pip
+    COMMAND venv/bin/python3 -m pip install -r requirements.txt
     COMMENT "Setting up virtual environment and installing dependencies"
 )
 
 # Add custom command to run PyInstaller and package the application
 add_custom_target(build-app ALL
     DEPENDS venv
-    COMMAND venv/bin/${Python3_EXECUTABLE} -m PyInstaller --onefile --name TensorNetworkBolSplines app.py
+    COMMAND venv/bin/python3 -m PyInstaller --onefile --name TensorNetworkBolSplines app.py
     COMMENT "Packaging application with PyInstaller"
 )
 
