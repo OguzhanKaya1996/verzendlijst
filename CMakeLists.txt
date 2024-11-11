@@ -15,6 +15,7 @@ add_custom_target(venv
     COMMAND ${Python3_EXECUTABLE} -m venv venv
     COMMAND venv/bin/python3 -m pip install --upgrade pip
     COMMAND venv/bin/python3 -m pip install -r ${REQUIREMENTS_FILE}
+    COMMAND venv/bin/python3 -m pip install pyinstaller  # Explicitly install PyInstaller here
     COMMENT "Setting up virtual environment and installing dependencies"
 )
 
