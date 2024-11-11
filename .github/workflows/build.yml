@@ -1,5 +1,4 @@
 name: Build for macOS
-
 on:
   push:
     branches: [ main ]
