@@ -22,7 +22,7 @@ add_custom_target(venv
 # Add custom command to run PyInstaller and package the application
 add_custom_target(build-app ALL
     DEPENDS venv
-    COMMAND venv/bin/python3 -m PyInstaller --onefile --name TensorNetworkBolSplines app.py
+    COMMAND venv/bin/python3 -m PyInstaller --onefile --name TensorNetworkBolSplines ${CMAKE_SOURCE_DIR}/app.py
     COMMENT "Packaging application with PyInstaller"
 )
 
