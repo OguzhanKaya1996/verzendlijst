@@ -1,35 +1,37 @@
-name: Cross-Platform Build and Release
+name: Build for macOS
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
   pull_request:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-    continue-on-error: true
+
+    runs-on: macos-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+    - uses: actions/checkout@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.x'
-
-    - name: Install dependencies and build
+    - name: Set up Qt
       run: |
-        make clean
-        make
+        brew install qt
+        echo "::add-path::$(brew --prefix qt)/bin"
 
-    - name: Upload artifact
-      uses: actions/upload-artifact@v3
+    - name: Configure with CMake
+      run: |
+        mkdir -p build
+        cd build
+        cmake .. -DCMAKE_PREFIX_PATH=$(brew --prefix qt)
+
+    - name: Build with CMake
+      run: |
+        cd build
+        cmake --build .
+
+    - name: Upload macOS Build
+      uses: actions/upload-artifact@v2
       with:
-        name: ${{ matrix.os }}-build
-        path: dist/
+        name: macos-build
+        path: build
